@@ -25,6 +25,24 @@ public class Feedback_Rate {
 		this.newFeedback_Rate(attrValue, stmt);
 		attrValue = new String[] { "1", "2", "5" };
 		this.newFeedback_Rate(attrValue, stmt);
+		attrValue = new String[] { "1", "4", "5" };
+		this.newFeedback_Rate(attrValue, stmt);
+		attrValue = new String[] { "2", "5", "1" };
+		this.newFeedback_Rate(attrValue, stmt);
+		attrValue = new String[] { "4", "3", "10" };
+		this.newFeedback_Rate(attrValue, stmt);
+		attrValue = new String[] { "4", "5", "1" };
+		this.newFeedback_Rate(attrValue, stmt);
+		attrValue = new String[] { "3", "1", "5" };
+		this.newFeedback_Rate(attrValue, stmt);
+		attrValue = new String[] { "5", "2", "10" };
+		this.newFeedback_Rate(attrValue, stmt);
+		attrValue = new String[] { "0", "5", "10" };
+		this.newFeedback_Rate(attrValue, stmt);
+		attrValue = new String[] { "7", "4", "5" };
+		this.newFeedback_Rate(attrValue, stmt);
+		attrValue = new String[] { "8", "4", "10" };
+		this.newFeedback_Rate(attrValue, stmt);
 	}
 
 	public void newFeedback_Rate(String attrValue[], Statement stmt)

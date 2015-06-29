@@ -68,18 +68,16 @@
 			<ul>
 				<li><a href="home.jsp" >Home</a></li>
 				<li><a href="browsebook.jsp">Browse Books</a></li>
+				<li><a href="degree.jsp">2 Degree</a></li>
+				<li><a href="user.jsp">Users</a></li>
 				<li><a href="newbook.jsp">New Books</a></li>
-				<li><a href="#">Promotions</a></li>
-				<li><a href="#">Profile</a></li>
-				<li><a href="#">About Us</a></li>
-				<li><a href="#">Contacts</a></li>
 			</ul>
 		</div>
 		<!-- End Navigation -->
 		<div class="cl">&nbsp;</div>
 		<!-- Login-details -->
 		<div id="login-details">
-			<p>Welcome, </p><p id="user"><%=name%></p> <p><a id="logout">Logout</a></p><p><a href="#" class="cart" ><img src="css/images/cart-icon.png" alt="" /></a>Shopping Cart (0) <a href="#" class="sum">$4.00</a></p>
+			<p>Welcome, </p><p id="user"><%=name%></p> <p><a id="logout">Logout</a></p><p>&nbsp;&nbsp;&nbsp; My Orders</p> <a href="orders.jsp" class="cart" ><img src="css/images/cart-icon.png" alt="orders" /></a>
 			<script type="text/javascript">
 				$("#logout").click(function(e) {
 				    document.cookie = "loginname=";
@@ -109,7 +107,8 @@
 			<%
 				String emptyQuery = " ISBN = " + (String)request.getParameter("ISBN") + " ";
 				ResultSet results = books.browseBook(emptyQuery, 4, name_q, con.stmt);
-				while (results.next()) {
+				int maxCopies = 0;
+				if (results.next()) {
 			%>
 			<tr>
 				<th><%=results.getString("ISBN")%></th>
@@ -126,10 +125,33 @@
 				<th><%=results.getDouble("trust_rate")%></th>
 			</tr>
 			<%
+				maxCopies = results.getInt("copies");
 				}
 			%>
 			
 		</table>
+		<br/>
+		<hr/>
+		<br/>
+
+		<h3>New Order : </h3>
+		<form action="orders.jsp" method="POST">
+			<input type="hidden" name="ISBN" value=<%=ISBN%> />
+			<label>Copies You Could Order is <%=maxCopies%> : </label>
+			<input name="order_copies" id="order_copies" value="0">
+			<button type="submit" id="order_btn">Submit</button>
+			<script type="text/javascript">
+				$("#order_copies").change(function(e) {
+					var oc = Number($("#order_copies").val());
+					var limit = <%=maxCopies%>;
+					if (oc > limit) {
+						$("#order_btn").attr("disabled","disabled");
+					} else {
+						$("#order_btn").removeAttr("disabled");
+					}
+				});
+			</script>
+		</form>
 		<br/>
 		<hr/>
 		<br/>
@@ -200,7 +222,7 @@
 					} else {
 				%>
 					<form action="onebook.jsp" method="POST">
-						<input type="hidden" name="ISBN" value=<%="'" + request.getParameter("ISBN") +"'"%> />
+						<input type="hidden" name="ISBN" value=<%=ISBN%> />
 						<input type="hidden" name="fid" value=<%= "'" +fid+ "'"%> />
 						<select name="fr_rate">
 							<option value="-1">------</option>
@@ -261,37 +283,31 @@
 		%>
 
 	</div>
-
-	<div id="footer" class="shell">
+<div id="footer" class="shell">
 		<div class="top">
 			<div class="cnt">
 				<div class="col about">
-					<h4>About BestSellers</h4>
-					<p>Nulla porttitor pretium mattis. Mauris lorem massa, ultricies non mattis bibendum, semper ut erat. Morbi vulputate placerat ligula. Fusce <br />convallis, nisl a pellentesque viverra, ipsum leo sodales sapien, vitae egestas dolor nisl eu tortor. Etiam ut elit vitae nisl tempor tincidunt. Nunc sed elementum est. Phasellus sodales viverra mauris nec dictum. Fusce a leo libero. Cras accumsan enim nec massa semper eu hendrerit nisl faucibus. Sed lectus ligula, consequat eget bibendum eu, consequat nec nisl. In sed consequat elit. Praesent nec iaculis sapien. <br />Curabitur gravida pretium tincidunt.  </p>
+					<h4>About Me</h4>
+					<p>Name : Liang Yongqing </p>
+					<p>NO : 13307130254 </p>
+					<p>HomePage : http://www.lyq.me </p>
+					<p>Mail : 13307130254@fudan.edu.cn / root@lyq.me </p>
+					<p>Skill : Computer Vision & Graphics</p>
+
 				</div>
-				<div class="col store">
-					<h4>Store</h4>
-					<ul>
-						<li><a href="#">Home</a></li>
-						<li><a href="#">Special Offers</a></li>
-						<li><a href="#">Log In</a></li>
-						<li><a href="#">Account</a></li>
-						<li><a href="#">Basket</a></li>
-						<li><a href="#">Checkout</a></li>
-					</ul>
-				</div>
+				
 				<div class="col" id="newsletter">
-					<h4>Newsletter</h4>
-					<p>Lorem ipsum dolor sit amet  consectetur. </p>
-					<form action="" method="post">
-						<input type="text" class="field" value="Your Name" title="Your Name" />
-						<input type="text" class="field" value="Email" title="Email" />
-						<div class="form-buttons"><input type="submit" value="Submit" class="submit-btn" /></div>
-					</form>
+					<h4>About Website</h4>
+					<p>BUILT FOR ALL FUNCTIONALITY !! </p>
+					<p>If you can NOT find ANY functionality. Please Contact Me :)</p>
+					<p>If you want to MINUS MY SCORE. Please Contact Me :(</p>
+					<br/>
+					<p>Amazing database class !! Inspired me many idas.</p>
+					<p>Thanks Feifei a lot !!</p>
 				</div>
 				<div class="cl">&nbsp;</div>
 				<div class="copy">
-					<p>&copy; <a href="#">BestSeller.com</a>. Design by <a href="http://css-free-templates.com/">CSS-FREE-TEMPLATES.COM</a></p>
+					<p>&copy; <a href="#">BestSeller.com</a>. Design by <a href="http://www.lyq.me/">Liang Yongqing</a></p>
 				</div>
 			</div>
 		</div>

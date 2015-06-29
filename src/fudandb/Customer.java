@@ -32,6 +32,9 @@ public class Customer {
 		attrValue = new String[] { "root", "root", "root",
 				"Shanghai", "4008823823" };
 		this.newCustomer(attrValue, stmt);
+		attrValue = new String[] { "feifei", "great", "lifeifei",
+				"Baoji", "123456789" };
+		this.newCustomer(attrValue, stmt);
 	}
 
 	public Boolean existCustomer(String attrValue, Statement stmt)

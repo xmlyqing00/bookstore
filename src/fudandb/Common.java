@@ -3,6 +3,7 @@ package fudandb;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 public class Common {
 
@@ -14,7 +15,10 @@ public class Common {
 				+ "drop table if exists orders;"
 				+ "drop table if exists customer;"
 				+ "drop table if exists book;"
-				+ "drop table if exists test;"
+				+ "drop table if exists test;" 
+				+ "drop table if exists authors;"
+				+ "create table authors("
+				+ "    name char(50) primary key);"
 				+ "create table book ("
 				+ "    ISBN char(50) primary key,"
 				+ "    title char(50) not null,"
@@ -58,7 +62,7 @@ public class Common {
 				+ "    foreign key (cid) references customer(cid));"
 				+ "create table customer_rate (" + "    cid1 integer,"
 				+ "    cid2 integer," + "    trusted boolean,"
-				
+				+ "	   primary key(cid1, cid2),"
 				+ "    foreign key (cid1) references customer(cid),"
 				+ "    foreign key (cid2) references customer(cid));";
 		try {
@@ -218,8 +222,8 @@ public class Common {
 			if (value[i] != "null")
 				query += attr[i] + "=" + value[i] + ",";
 		if (value[attr.length - 1] != "null") {
-			query += attr[attr.length-1] + "=" + value[attr.length-1] + " ";
-		} 
+			query += attr[attr.length - 1] + "=" + value[attr.length - 1] + " ";
+		}
 		query += "where " + keyAttr + "=" + keyValue + ";";
 		System.out.println(query);
 
@@ -274,12 +278,15 @@ public class Common {
 		return results;
 	}
 
-	public ResultSet degree(String cid, Statement stmt) throws Exception {
+	public String degree(String author1, String author2, Statement stmt)
+			throws Exception {
 
-		String query = "select c.login_name as name from customer as c, orders as o1, orders as o2 where o1.ISBN = o2.ISBN and o1.cid = "
-				+ cid + " and o2.cid != " + cid + " and c.cid = o2.cid;";
-
+		String query = "";
 		ResultSet results;
+		ArrayList<String> book1 = new ArrayList<String>();
+		ArrayList<String> book2 = new ArrayList<String>();
+
+		query = "select ISBN from book where author like '%" + author1 + "%';";
 
 		System.out.println(query);
 		try {
@@ -289,13 +296,104 @@ public class Common {
 			System.err.println(e.getMessage());
 			throw (e);
 		}
-		return results;
+
+		while (results.next()) {
+			book1.add(results.getString("ISBN"));
+		}
+
+		query = "select ISBN from book where author like '%" + author2 + "%';";
+
+		System.out.println(query);
+		try {
+			results = stmt.executeQuery(query);
+		} catch (Exception e) {
+			System.err.println("Unable to execute query:" + query + "\n");
+			System.err.println(e.getMessage());
+			throw (e);
+		}
+
+		while (results.next()) {
+			book2.add(results.getString("ISBN"));
+		}
+
+		int degree = 0;
+		String ans = "0";
+		for (int i = 0; i < book1.size(); i++) {
+			for (int j = 0; j < book2.size(); j++) {
+				if (book1.get(i).equals(book2.get(j))) {
+					degree = 1;
+					ans = "1";
+					ans += book1.get(i);
+					break;
+				}
+			}
+			if (degree != 0)
+				break;
+		}
+
+		if (degree == 1)
+			return ans;
+
+		ArrayList<String> a1 = new ArrayList<String>();
+		ArrayList<String> a2 = new ArrayList<String>();
+		for (int i = 0; i < book1.size(); i++) {
+			query = "select author from book where ISBN='" + book1.get(i)
+					+ "';";
+			try {
+				results = stmt.executeQuery(query);
+			} catch (Exception e) {
+				System.err.println("Unable to execute query:" + query + "\n");
+				System.err.println(e.getMessage());
+				throw (e);
+			}
+			while (results.next()) {
+				String tmp = results.getString("author");
+				String[] group = tmp.split(",");
+				for (int j = 0; j < group.length; j++) {
+					a1.add(group[j]);
+				}
+			}
+		}
+		for (int i = 0; i < book2.size(); i++) {
+			query = "select author from book where ISBN='" + book2.get(i)
+					+ "';";
+			try {
+				results = stmt.executeQuery(query);
+			} catch (Exception e) {
+				System.err.println("Unable to execute query:" + query + "\n");
+				System.err.println(e.getMessage());
+				throw (e);
+			}
+			while (results.next()) {
+				String tmp = results.getString("author");
+				String[] group = tmp.split(",");
+				for (int j = 0; j < group.length; j++) {
+					a2.add(group[j]);
+				}
+			}
+		}
+
+		degree = 0;
+		for (int i = 0; i < a1.size(); i++) {
+			for (int j = 0; j < a2.size(); j++) {
+				if (a1.get(i).equals(a2.get(j))) {
+					degree = 2;
+					ans = "2";
+					ans += a1.get(i);
+					break;
+				}
+			}
+			if (degree != 0)
+				break;
+		}
+		return ans;
+
 	}
 
 	public ResultSet mostPopular(String name, String number, Statement stmt)
 			throws Exception {
 
-		String query = "select b.ISBN, b.title, b.author, b.publisher, b.publish_year, b.copies, b.price, b.format, b.keywords, b.subject "
+		String query = "select b.ISBN as ISBN, b.title as title, b.author as author, b.publisher as publisher, b.price as price "
 				+ "from book as b, orders as o "
 				+ "where b.ISBN = o.ISBN "
 				+ "group by b."
@@ -316,9 +414,33 @@ public class Common {
 		return results;
 	}
 
+	public ResultSet mostPopularAuthor(String number, Statement stmt) throws Exception {
+
+		String query = "";
+		query = "select a.name as author "
+				+ " from book as b, orders as o, authors as a "
+				+ " where b.ISBN = o.ISBN and locate(a.name, b.author) > 0"
+				+ " group by a.name"
+				+ " order by sum(o.amount) desc limit "
+				+ number + ";";
+		ResultSet results;
+
+		System.out.println(query);
+		try {
+			results = stmt.executeQuery(query);
+		} catch (Exception e) {
+			System.err.println("Unable to execute query:" + query + "\n");
+			System.err.println(e.getMessage());
+			throw (e);
+		}
+
+		return results;
+	}
+
 	public ResultSet mostTrustUser(Statement stmt) throws Exception {
 
-		String query = "select c.cid, c.login_name from customer as c, ( "
+		String query = "select c.cid, c.login_name, (t1.sum-t2.sum) as score "
+				+ " from customer as c, ( "
 				+ "select c1.cid as cid, count(*) as sum "
 				+ "from customer as c1, customer_rate as r "
 				+ "where c1.cid = r.cid2 and r.trusted = true "
@@ -328,7 +450,7 @@ public class Common {
 				+ "where c2.cid = r.cid2 and r.trusted = false "
 				+ "group by c2.cid ) as t2 "
 				+ "where t1.cid = c.cid and t2.cid = c.cid "
-				+ "order by (t1.sum+1)/(t2.sum+1) desc;";
+				+ "order by (t1.sum-t2.sum) desc;";
 		ResultSet results;
 
 		System.out.println(query);
@@ -344,9 +466,9 @@ public class Common {
 
 	public ResultSet mostUsefulUser(Statement stmt) throws Exception {
 
-		String query = "select c.cid, c.login_name from customer as c, feedback as f, feedback_rate as r "
-				+ "where c.cid = f.cid and f.fid = r.fid "
-				+ "group by c.cid "
+		String query = "select c.cid, c.login_name, avg(r.fb_rate) as score "
+				+ " from customer as c, feedback as f, feedback_rate as r "
+				+ "where c.cid = f.cid and f.fid = r.fid " + "group by c.cid "
 				+ "order by avg(r.fb_rate) desc;";
 		ResultSet results;
 

@@ -1,7 +1,7 @@
 <%@ page language="java" import="fudandb.*" %>
 <html>
 <head>
-	<title> Register </title>
+	<title> Register | BookStore of Liang </title>
 </head>
 
 <body style="background: #eee url('resource/login_bg.png') repeat scroll 0% 0%">

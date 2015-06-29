@@ -130,8 +130,8 @@ textarea { overflow: auto; }
 .store ul { padding-left: 2px; list-style: none; line-height: 28px; text-transform: uppercase; }
 .store ul li a { color: #c7e6f2; }
 
-#newsletter { width: 215px; padding-left: 31px; font-size: 11px; line-height: 20px; }
-#newsletter p { padding: 3px 0 8px; }
+#newsletter { width: 340px; padding-left: 31px; font-size: 12px; line-height: 18px; }
+#newsletter p { padding: 3px 0px; padding-top: 4px;}
 #newsletter .field { width: 201px; padding: 2px 5px 3px; background: #73c1e0; border: solid 1px #a2d6ea; line-height: 13px; margin-bottom: 4px; color: #fff; }
 #newsletter .form-buttons { float: right; display: inline; text-align: right; padding-right: 2px; }
 #newsletter .submit-btn { margin-top: 4px; display: inline-block; font-size: 10px; line-height: 16px; height: 24px; background: url(../resource/submit-btn.png); padding: 0 8px 0 10px; border: 0; color: #fff; text-transform: uppercase; cursor: pointer; }

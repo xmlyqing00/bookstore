@@ -20,19 +20,19 @@ public class Book {
 		attrValue = new String[] { "'0133760065'",
 				"'Computer Science: An Overview'",
 				"'Glenn Brookshear,Dennis Brylow'", "'CMPEDU'", "'2011-10-11'",
-				"20", "55.7", "'paper'", "'computer,introduction'",
+				"20", "55.00", "'paper'", "'computer,introduction'",
 				"'computer'" };
 		this.newBook(attrValue, stmt);
 		attrValue = new String[] {
 				"'9787111407010'",
 				"'Introduction to Algorithm'",
 				"'Thomas H.Cormen,Charles E.Leiserson,Ronald L.Rivest,Clifford Stein'",
-				"'CMPEDU'", "'2013-7-1'", "10", "73.20", "'paper'",
+				"'CMPEDU'", "'2013-7-1'", "10", "73.00", "'paper'",
 				"'algorithm,introduction'", "'computer'" };
 		this.newBook(attrValue, stmt);
 		attrValue = new String[] { "'9787500794486'",
 				"'Never Go Back: (Jack Reacher 18)'", "'Lee Child'",
-				"'Bantam'", "'2009-12-01'", "22", "55.0", "'paper'",
+				"'Bantam'", "'2009-12-01'", "22", "55.00", "'paper'",
 				"'Hero, Beauty'", "'literature'" };
 		this.newBook(attrValue, stmt);
 		attrValue = new String[] { "'515130044'", "'The Attorney'",
@@ -40,7 +40,7 @@ public class Book {
 				"98.0", "'paper'", "'Attorney'", "'literature'" };
 		this.newBook(attrValue, stmt);
 		attrValue = new String[] { "'747266093'", "'The Jury'",
-				"'Steve Martini'", "'Headline Book Publishing; New Ed'",
+				"'Steve Martini'", "'Headline Book Publishing'",
 				"'2001-10-04'", "99", "62.0", "'paper'", "'jury'",
 				"'literature'" };
 		this.newBook(attrValue, stmt);
@@ -49,12 +49,59 @@ public class Book {
 				"'2012-03-27'", "2", "50.0", "'paper'", "'affair'",
 				"'literature'" };
 		this.newBook(attrValue, stmt);
+		attrValue = new String[] { "'123456'", "'Test Degree 1'",
+				"'Lifeifei,Xiaoming'", "'Fudan'", "'2015-2-2'", "40", "40.0",
+				"'Gold'", "'Database'", "'Computer'" };
+		this.newBook(attrValue, stmt);
+		attrValue = new String[] { "'666666'", "'Test Degree 2'",
+				"'Lifeifei,Xiaohong'", "'Fudan'", "'2015-3-3'", "66", "66.0",
+				"'Gold'", "'Graphics'", "'Computer'" };
+		this.newBook(attrValue, stmt);
+		attrValue = new String[] { "'0446699004'",
+				"'The Coming Economic Collapse'", "'Stephen Leeb'",
+				"'Business Plus'", "'2007-2-12'", "10", "80.00",
+				"'paper'", "'economic'", "'Economic'" };
+		this.newBook(attrValue, stmt);
+		attrValue = new String[] { "'0312425074'",
+				"'The World Is Flat 3.0: A Brief History of the Twen'",
+				"'Thomas L. Friedman'", "' Picador USA'",
+				"'2007-7-24'", "'22'", "'69.00'", "'paper'", "'novel'",
+				"'literature'" };
+		this.newBook(attrValue, stmt);
 	}
 
 	public void newBook(String[] attrValue, Statement stmt) throws Exception {
 
 		Common com = new Common();
 		com.newTuple(attrValue, tableName, attrName, stmt);
+		
+		String authors = attrValue[2].substring(1, attrValue[2].length()-1);
+		String[] tmpGroup = authors.split(",");
+		String[] authorsName = {"name"};
+		for (int i = 0; i < tmpGroup.length; i++){
+			
+			String[] authorsValue = new String[] {"'"+tmpGroup[i]+"'"};
+			
+			String query = "select name from authors where authors.name=" + "'" +tmpGroup[i]+"';";
+			ResultSet results;
+			
+			try {
+				results = stmt.executeQuery(query);
+			} catch (Exception e) {
+				System.err.println("Unable to execute query:" + query + "\n");
+				System.err.println(e.getMessage());
+				throw (e);
+			}
+			
+			String tmp= "";
+			if (results.next()) {
+				tmp = results.getString("name");
+			}
+			if (!tmp.equals(tmpGroup[i])) {
+				com.newTuple(authorsValue, "authors", authorsName, stmt);
+			}
+			
+		}
 	}
 
 	public void deleteBook(String ISBN, Statement stmt) throws Exception {

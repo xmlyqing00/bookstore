@@ -4,7 +4,7 @@
 <head>
 	<title> BookStore of Liang </title>
 	<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
-	<link rel="shortcut icon" href="css/images/favicon.ico" />
+	<link rel="shortcut icon" href="resource/favicon.ico" />
 	<link rel="stylesheet" href="css/style.css" type="text/css" media="all" />
 	<script type="text/javascript" src="js/jquery-1.6.2.min.js"></script>
 	<script type="text/javascript" src="js/jquery.jcarousel.min.js"></script>
@@ -40,6 +40,10 @@
 		}
 		fudandb.Connector con = new Connector();
 		fudandb.Book books = new Book();
+		fudandb.Customer customers = new Customer();
+		fudandb.Common com = new Common();
+
+		int cid = customers.getCid(name_q, con.stmt);
 	%>
 	<!-- Header -->
 	<div id="header" class="shell">
@@ -49,17 +53,16 @@
 			<ul>
 				<li><a href="#" class="active">Home</a></li>
 				<li><a href="browsebook.jsp">Browse Books</a></li>
+				<li><a href="degree.jsp">2 Degree</a></li>
+				<li><a href="user.jsp">Users</a></li>
 				<li><a href="newbook.jsp">New Books</a></li>
-				<li><a href="#">Profile</a></li>
-				<li><a href="#">About Us</a></li>
-				<li><a href="#">Contacts</a></li>
 			</ul>
 		</div>
 		<!-- End Navigation -->
 		<div class="cl">&nbsp;</div>
 		<!-- Login-details -->
 		<div id="login-details">
-			<p>Welcome, </p><p id="user"><%=name%></p> <p><a id="logout">Logout</a></p><p><a href="#" class="cart" ><img src="css/images/cart-icon.png" alt="" /></a>Shopping Cart (0) <a href="#" class="sum">$4.00</a></p>
+			<p>Welcome, </p><p id="user"><%=name%></p> <p><a id="logout">Logout</a></p><p>&nbsp;&nbsp;&nbsp; My Orders</p> <a href="orders.jsp" class="cart" ><img src="resource/cart-icon.png" alt="orders" /></a>
 			<script type="text/javascript">
 				$("#logout").click(function(e) {
 				    document.cookie = "loginname=";
@@ -76,50 +79,50 @@
 			<ul>
 				<li>
 					<div class="image">
-						<img src="css/images/books.png" alt="" />
+						<img src="resource/books.png" alt="" />
 					</div>
 					<div class="details">
-						<h2>Bestsellers</h2>
+						<h2>Best Book</h2>
 						<h3>Special Offers</h3>
-						<p class="title">Pellentesque congue lorem quis massa blandit non pretium nisi pharetra</p>
-						<p class="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent id odio in tortor scelerisque dictum. Phasellus varius sem sit amet metus volutpat vel vehicula nunc lacinia.</p>
-						<a href="#" class="read-more-btn">Read More</a>
+						<p class="title">The World is Flat</p>
+						<p class="description">No one today chronicles global shifts in simple and practical terms quite like Friedman. He plucks insights from his travels and the published press that can leave you spinning like a top. Or rather, a pancake.</p>
+						<a href="onebook.jsp?ISBN=0312425074" class="read-more-btn">Read More</a>
 					</div>
 				</li>
 				<li>
 					<div class="image">
-						<img src="css/images/books.png" alt="" />
+						<img src="resource/books.png" alt="" />
 					</div>
 					<div class="details">
-						<h2>Bestsellers</h2>
+						<h2>Best Book</h2>
 						<h3>Special Offers</h3>
-						<p class="title">Pellentesque congue lorem quis massa blandit non pretium nisi pharetra</p>
-						<p class="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent id odio in tortor scelerisque dictum. Phasellus varius sem sit amet metus volutpat vel vehicula nunc lacinia.</p>
-						<a href="#" class="read-more-btn">Read More</a>
+						<p class="title">The Coming Economic Collapse</p>
+						<p class="description">Stephen Leeb shows how hard times can be a boon for smart investors. As the world faces an energy crisis of unprecedented scope, renowed economist Stephen Leeb shows how surging oil prices will contribute to an economic collapse.</p>
+						<a href="onebook.jsp?ISBN=0446699004" class="read-more-btn">Read More</a>
 					</div>
 				</li>
 				<li>
 					<div class="image">
-						<img src="css/images/books.png" alt="" />
+						<img src="resource/books.png" alt="" />
 					</div>
 					<div class="details">
-						<h2>Bestsellers</h2>
+						<h2>Best Book</h2>
 						<h3>Special Offers</h3>
-						<p class="title">Pellentesque congue lorem quis massa blandit non pretium nisi pharetra</p>
-						<p class="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent id odio in tortor scelerisque dictum. Phasellus varius sem sit amet metus volutpat vel vehicula nunc lacinia.</p>
-						<a href="#" class="read-more-btn">Read More</a>
+						<p class="title">The World is Flat</p>
+						<p class="description">No one today chronicles global shifts in simple and practical terms quite like Friedman. He plucks insights from his travels and the published press that can leave you spinning like a top. Or rather, a pancake.</p>
+						<a href="onebook.jsp?ISBN=0312425074" class="read-more-btn">Read More</a>
 					</div>
 				</li>
 				<li>
 					<div class="image">
-						<img src="css/images/books.png" alt="" />
+						<img src="resource/books.png" alt="" />
 					</div>
 					<div class="details">
-						<h2>Bestsellers</h2>
+						<h2>Best Book</h2>
 						<h3>Special Offers</h3>
-						<p class="title">Pellentesque congue lorem quis massa blandit non pretium nisi pharetra</p>
-						<p class="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent id odio in tortor scelerisque dictum. Phasellus varius sem sit amet metus volutpat vel vehicula nunc lacinia.</p>
-						<a href="#" class="read-more-btn">Read More</a>
+						<p class="title">The Coming Economic Collapse</p>
+						<p class="description">Stephen Leeb shows how hard times can be a boon for smart investors. As the world faces an energy crisis of unprecedented scope, renowed economist Stephen Leeb shows how surging oil prices will contribute to an economic collapse.</p>
+						<a href="onebook.jsp?ISBN=0446699004" class="read-more-btn">Read More</a>
 					</div>
 				</li>
 			</ul>
@@ -138,32 +141,29 @@
 		<div id="sidebar">
 			<ul class="categories">
 				<li>
-					<h4>Categories</h4>
+					<h4>Top Popular Authors</h4>
 					<ul>
-						<li><a href="#">Lorem ipsum dolor</a></li>
-						<li><a href="#">Morbi eget</a></li>
-						<li><a href="#">Nulla egestas</a></li>
-						<li><a href="#">Curabitur venenatis</a></li>
-						<li><a href="#">Ut dictum purus</a></li>
-						<li><a href="#">Curabitur imperdiet</a></li>
-						<li><a href="#">Aliquam elementum</a></li>
+						<%
+							ResultSet popularResult = com.mostPopularAuthor("10", con.stmt);
+							while (popularResult.next()) {
+						%>
+							<li><%=popularResult.getString("author")%></li>
+						<%
+							}
+						%>
 					</ul>
 				</li>
 				<li>
-					<h4>Authors</h4>
+					<h4>Top Popular Publishers</h4>
 					<ul>
-						<li><a href="#">Lorem ipsum dolor</a></li>
-						<li><a href="#">Morbi eget</a></li>
-						<li><a href="#">Nulla egestas</a></li>
-						<li><a href="#">Curabitur venenatis</a></li>
-						<li><a href="#">Ut dictum purus</a></li>
-						<li><a href="#">Curabitur imperdiet</a></li>
-						<li><a href="#">Lorem ipsum dolor</a></li>
-						<li><a href="#">Morbi eget</a></li>
-						<li><a href="#">Nulla egestas</a></li>
-						<li><a href="#">Curabitur venenatis</a></li>
-						<li><a href="#">Ut dictum purus</a></li>
-						<li><a href="#">Curabitur imperdiet</a></li>
+						<%
+							popularResult = com.mostPopular("publisher", "10", con.stmt);
+							while (popularResult.next()) {
+						%>
+							<li><%=popularResult.getString("publisher")%></li>
+						<%
+							}
+						%>
 					</ul>
 				</li>
 			</ul>
@@ -173,200 +173,108 @@
 		<div id="content">
 			<!-- Products -->
 			<div class="products">
-				<h3>Featured Products</h3>
+				<h3>Buying Seggestions (Cover Random. lol)</h3>
 				<ul>
+					<%
+						//out.println(cid);
+						ResultSet results = com.suggest(String.valueOf(cid), con.stmt);
+						int count = 0;
+						while (results.next()) {
+							count++;
+							if (count >= 9) break;
+							String ISBN = results.getString("ISBN");
+							String href = "'onebook.jsp?ISBN=" + ISBN + "'"; 
+							int len = 30;
+							String bookName = results.getString("title");
+							if (len > bookName.length()) len = bookName.length();
+							bookName = bookName.substring(0, len);
+							len = 15;
+							String author = results.getString("author");
+							if (len > author.length()) len = author.length();
+							author = author.substring(0, len);
+							String d = results.getDouble("price") + "";
+							int price = Integer.valueOf(d.substring(0, d.indexOf('.')));
+							//String img_href = "'resource/book_" + ISBN + ".jpg'";
+							String img_href = "'resource/image0" + count + ".jpg'";
+							
+					%>
 					<li>
 						<div class="product">
-							<a href="#" class="info">
+							<a href=<%=href%> class="info">
 								<span class="holder">
-									<img src="css/images/image01.jpg" alt="" />
-									<span class="book-name">Book Name</span>
-									<span class="author">by John Smith</span>
-									<span class="description">Maecenas vehicula ante eu enim pharetra<br />scelerisque dignissim <br />sollicitudin nisi</span>
+									<img src=<%=img_href%> alt="" />
+									<span class="book-name"><%=bookName%></span>
+									<span class="author"><%=author%></span>
+									<span class="description">Some descriptions. <br />More descriptions.</span>
 								</span>
 							</a>
-							<a href="#" class="buy-btn">BUY NOW <span class="price"><span class="low">$</span>22<span class="high">00</span></span></a>
+							<a href=<%=href%> class="buy-btn">BUY NOW <span class="price"><span class="low">$</span><%=price%><span class="high">00</span></span></a>
 						</div>
 					</li>
+					<%
+						}
+
+						for (count=count + 1; count <= 8; count++) {
+							String img_href0 = "'resource/image0" + count + ".jpg'";
+					%>
 					<li>
 						<div class="product">
-							<a href="#" class="info">
+							<a href="browsebook.jsp" class="info">
 								<span class="holder">
-									<img src="css/images/image02.jpg" alt="" />
-									<span class="book-name">Book Name</span>
-									<span class="author">by John Smith</span>
-									<span class="description">Maecenas vehicula ante eu enim pharetra<br />scelerisque dignissim <br />sollicitudin nisi</span>
+									<img src=<%=img_href0%> alt="" />
+									<span class="book-name">Jump to All Books</span>
+									<span class="author">Author</span>
+									<span class="description">A description.<br />More descriptions. <br />Many descriptions.</span>
 								</span>
 							</a>
-							<a href="#" class="buy-btn">BUY NOW <span class="price"><span class="low">$</span>22<span class="high">00</span></span></a>
+							<a href="browsebook.jsp" class="buy-btn">BUY NOW <span class="price"><span class="low">$</span>40<span class="high">00</span></span></a>
 						</div>
 					</li>
-					<li>
-						<div class="product">
-							<a href="#" class="info">
-								<span class="holder">
-									<img src="css/images/image03.jpg" alt="" />
-									<span class="book-name">Book Name</span>
-									<span class="author">by John Smith</span>
-									<span class="description">Maecenas vehicula ante eu enim pharetra<br />scelerisque dignissim <br />sollicitudin nisi</span>
-								</span>
-							</a>
-							<a href="#" class="buy-btn">BUY NOW <span class="price"><span class="low">$</span>22<span class="high">00</span></span></a>
-						</div>
-					</li>
-					<li>
-						<div class="product">
-							<a href="#" class="info">
-								<span class="holder">
-									<img src="css/images/image04.jpg" alt="" />
-									<span class="book-name">Book Name</span>
-									<span class="author">by John Smith</span>
-									<span class="description">Maecenas vehicula ante eu enim pharetra<br />scelerisque dignissim <br />sollicitudin nisi</span>
-								</span>
-							</a>
-							<a href="#" class="buy-btn">BUY NOW <span class="price"><span class="low">$</span>22<span class="high">00</span></span></a>
-						</div>
-					</li>
-					<li>
-						<div class="product">
-							<a href="#" class="info">
-								<span class="holder">
-									<img src="css/images/image05.jpg" alt="" />
-									<span class="book-name">Book Name</span>
-									<span class="author">by John Smith</span>
-									<span class="description">Maecenas vehicula ante eu enim pharetra<br />scelerisque dignissim <br />sollicitudin nisi</span>
-								</span>
-							</a>
-							<a href="#" class="buy-btn">BUY NOW <span class="price"><span class="low">$</span>22<span class="high">00</span></span></a>
-						</div>
-					</li>
-					<li>
-						<div class="product">
-							<a href="#" class="info">
-								<span class="holder">
-									<img src="css/images/image06.jpg" alt="" />
-									<span class="book-name">Book Name</span>
-									<span class="author">by John Smith</span>
-									<span class="description">Maecenas vehicula ante eu enim pharetra<br />scelerisque dignissim <br />sollicitudin nisi</span>
-								</span>
-							</a>
-							<a href="#" class="buy-btn">BUY NOW <span class="price"><span class="low">$</span>22<span class="high">00</span></span></a>
-						</div>
-					</li>
-					<li>
-						<div class="product">
-							<a href="#" class="info">
-								<span class="holder">
-									<img src="css/images/image07.jpg" alt="" />
-									<span class="book-name">Book Name</span>
-									<span class="author">by John Smith</span>
-									<span class="description">Maecenas vehicula ante eu enim pharetra<br />scelerisque dignissim <br />sollicitudin nisi</span>
-								</span>
-							</a>
-							<a href="#" class="buy-btn">BUY NOW <span class="price"><span class="low">$</span>22<span class="high">00</span></span></a>
-						</div>
-					</li>
-					<li>
-						<div class="product">
-							<a href="#" class="info">
-								<span class="holder">
-									<img src="css/images/image08.jpg" alt="" />
-									<span class="book-name">Book Name</span>
-									<span class="author">by John Smith</span>
-									<span class="description">Maecenas vehicula ante eu enim pharetra<br />scelerisque dignissim <br />sollicitudin nisi</span>
-								</span>
-							</a>
-							<a href="#" class="buy-btn">BUY NOW <span class="price"><span class="low">$</span>22<span class="high">00</span></span></a>
-						</div>
-					</li>
+					<%
+						}
+					%>
 				</ul>
 			<!-- End Products -->
 			</div>
 			<div class="cl">&nbsp;</div>
 			<!-- Best-sellers -->
 			<div id="best-sellers">
-				<h3>Best Sellers</h3>
+				<h3>Top Popular Books (Cover Random. lol)</h3>
 				<ul>
-					<li>
-						<div class="product">
-							<a href="#">
-								<img src="css/images/image-best01.jpg" alt="" />
-								<span class="book-name">Book Name </span>
-								<span class="author">by John Smith</span>
-								<span class="price"><span class="low">$</span>35<span class="high">00</span></span>
+					<%
+						count = 0;
+						results = com.mostPopular("ISBN", "8", con.stmt);
+						while (results.next()) {
+
+							count++;
+							String ISBN = results.getString("ISBN");
+							String popularHref = "'onebook.jsp?ISBN=" + ISBN + "'"; 
+							String img_href = "'resource/image0" + count + ".jpg'";
+							int len = 15;
+							String bookName = results.getString("title");
+							if (len > bookName.length()) len = bookName.length();
+							bookName = bookName.substring(0, len);
+							len = 15;
+							String author = results.getString("author");
+							if (len > author.length()) len = author.length();
+							author = author.substring(0, len);
+							String d= results.getDouble("price") + "";
+							int price = Integer.valueOf(d.substring(0, d.indexOf('.')));
+							
+					%>
+						<li>
+							<div class="product">
+							<a href=<%=popularHref%>>
+								<img src=<%=img_href%> alt="" />
+								<span class="book-name"><%=bookName%> </span>
+								<span class="author"><%=author%></span>
+								<span class="price"><span class="low">$</span><%=price%><span class="high">00</span></span>
 							</a>
-						</div>
-					</li>
-					<li>
-						<div class="product">
-							<a href="#">
-								<img src="css/images/image-best02.jpg" alt="" />
-								<span class="book-name">Book Name </span>
-								<span class="author">by John Smith</span>
-								<span class="price"><span class="low">$</span>45<span class="high">00</span></span>
-							</a>
-						</div>
-					</li>
-					<li>
-						<div class="product">
-							<a href="#">
-								<img src="css/images/image-best03.jpg" alt="" />
-								<span class="book-name">Book Name </span>
-								<span class="author">by John Smith</span>
-								<span class="price"><span class="low">$</span>15<span class="high">00</span></span>
-							</a>
-						</div>
-					</li>
-					<li>
-						<div class="product">
-							<a href="#">
-								<img src="css/images/image-best04.jpg" alt="" />
-								<span class="book-name">Book Name </span>
-								<span class="author">by John Smith</span>
-								<span class="price"><span class="low">$</span>27<span class="high">99</span></span>
-							</a>
-						</div>
-					</li>
-					<li>
-						<div class="product">
-							<a href="#">
-								<img src="css/images/image-best01.jpg" alt="" />
-								<span class="book-name">Book Name </span>
-								<span class="author">by John Smith</span>
-								<span class="price"><span class="low">$</span>35<span class="high">00</span></span>
-							</a>
-						</div>
-					</li>
-					<li>
-						<div class="product">
-							<a href="#">
-								<img src="css/images/image-best02.jpg" alt="" />
-								<span class="book-name">Book Name </span>
-								<span class="author">by John Smith</span>
-								<span class="price"><span class="low">$</span>45<span class="high">00</span></span>
-							</a>
-						</div>
-					</li>
-					<li>
-						<div class="product">
-							<a href="#">
-								<img src="css/images/image-best03.jpg" alt="" />
-								<span class="book-name">Book Name </span>
-								<span class="author">by John Smith</span>
-								<span class="price"><span class="low">$</span>15<span class="high">00</span></span>
-							</a>
-						</div>
-					</li>
-					<li>
-						<div class="product">
-							<a href="#">
-								<img src="css/images/image-best04.jpg" alt="" />
-								<span class="book-name">Book Name </span>
-								<span class="author">by John Smith</span>
-								<span class="price"><span class="low">$</span>27<span class="high">99</span></span>
-							</a>
-						</div>
-					</li>
+						</li>
+					<%
+						}
+						con.closeConnection();
+					%>
 				</ul>
 			</div>
 			<!-- End Best-sellers -->
@@ -380,32 +288,27 @@
 		<div class="top">
 			<div class="cnt">
 				<div class="col about">
-					<h4>About BestSellers</h4>
-					<p>Nulla porttitor pretium mattis. Mauris lorem massa, ultricies non mattis bibendum, semper ut erat. Morbi vulputate placerat ligula. Fusce <br />convallis, nisl a pellentesque viverra, ipsum leo sodales sapien, vitae egestas dolor nisl eu tortor. Etiam ut elit vitae nisl tempor tincidunt. Nunc sed elementum est. Phasellus sodales viverra mauris nec dictum. Fusce a leo libero. Cras accumsan enim nec massa semper eu hendrerit nisl faucibus. Sed lectus ligula, consequat eget bibendum eu, consequat nec nisl. In sed consequat elit. Praesent nec iaculis sapien. <br />Curabitur gravida pretium tincidunt.  </p>
+					<h4>About Me</h4>
+					<p>Name : Liang Yongqing </p>
+					<p>NO : 13307130254 </p>
+					<p>HomePage : http://www.lyq.me </p>
+					<p>Mail : 13307130254@fudan.edu.cn / root@lyq.me </p>
+					<p>Skill : Computer Vision & Graphics</p>
+
 				</div>
-				<div class="col store">
-					<h4>Store</h4>
-					<ul>
-						<li><a href="#">Home</a></li>
-						<li><a href="#">Special Offers</a></li>
-						<li><a href="#">Log In</a></li>
-						<li><a href="#">Account</a></li>
-						<li><a href="#">Basket</a></li>
-						<li><a href="#">Checkout</a></li>
-					</ul>
-				</div>
+				
 				<div class="col" id="newsletter">
-					<h4>Newsletter</h4>
-					<p>Lorem ipsum dolor sit amet  consectetur. </p>
-					<form action="" method="post">
-						<input type="text" class="field" value="Your Name" title="Your Name" />
-						<input type="text" class="field" value="Email" title="Email" />
-						<div class="form-buttons"><input type="submit" value="Submit" class="submit-btn" /></div>
-					</form>
+					<h4>About Website</h4>
+					<p>BUILT FOR ALL FUNCTIONALITY !! </p>
+					<p>If you can NOT find ANY functionality. Please Contact Me :)</p>
+					<p>If you want to MINUS MY SCORE. Please Contact Me :(</p>
+					<br/>
+					<p>Amazing database class !! Inspired me many idas.</p>
+					<p>Thanks Feifei a lot !!</p>
 				</div>
 				<div class="cl">&nbsp;</div>
 				<div class="copy">
-					<p>&copy; <a href="#">BestSeller.com</a>. Design by <a href="http://css-free-templates.com/">CSS-FREE-TEMPLATES.COM</a></p>
+					<p>&copy; <a href="#">BestSeller.com</a>. Design by <a href="http://www.lyq.me/">Liang Yongqing</a></p>
 				</div>
 			</div>
 		</div>

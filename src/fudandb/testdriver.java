@@ -12,7 +12,7 @@ public class testdriver {
 	 */
 
 	public static void main(String[] args) {
-		/*
+		
 		try {
 
 			Connector con = new Connector();
@@ -39,11 +39,14 @@ public class testdriver {
 			//com.initTable(con.stmt);
 			
 			String ISBN = "'0133760065'";
+			String a1 = "Xiaoming";
+			String a2 = "Xiaohong";
+			//String a3 = com.degree(a1, a2, con.stmt);
 			//String user = "'Tom'";
-			//ResultSet resultFR;
+			ResultSet resultFR = com.suggest(String.valueOf(4), con.stmt);
 			//Boolean a = feedbacks.existFeedback(ISBN, user, con.stmt);
 			
-			
+			while (resultFR.next()) {}
 			while (true) {
 
 				com.display();
@@ -222,58 +225,6 @@ public class testdriver {
 
 				case 11:
 
-					System.out.println("Enter 2 cids");
-					String cid1 = "",
-					cid2 = "";
-					int len1 = 0,
-					len2 = 0;
-					ArrayList<String> name1 = new ArrayList<String>();
-					ArrayList<String> name2 = new ArrayList<String>();
-
-					if (sc.hasNext())
-						cid1 = "'" + sc.next() + "'";
-					if (sc.hasNext())
-						cid2 = "'" + sc.next() + "'";
-					results = com.degree(cid1, con.stmt);
-
-					while (results.next()) {
-						name1.add(results.getString("name"));
-					}
-					results = com.degree(cid2, con.stmt);
-					while (results.next()) {
-						name2.add(results.getString("name"));
-					}
-
-					len1 = name1.size();
-					len2 = name2.size();
-
-					int degree = 0;
-					for (int i = 0; i < len1; i++) {
-						if (name1.get(i).equals(cid2)) {
-							System.out.println("1 degree");
-							degree = 1;
-							break;
-						}
-					}
-
-					if (degree != 0)
-						break;
-
-					for (int i = 0; i < len1; i++) {
-						for (int j = 0; j < len2; j++) {
-							if (name1.get(i).equals(name2.get(j))) {
-								System.out.println("2 degree");
-								degree = 2;
-								break;
-							}
-						}
-						if (degree != 0)
-							break;
-					}
-
-					if (degree != 0)
-						break;
-					System.out.println("0 degree");
 					break;
 
 				case 12:
@@ -344,7 +295,7 @@ public class testdriver {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		*/
+		
 	}
 	
 }
