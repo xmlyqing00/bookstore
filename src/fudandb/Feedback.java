@@ -53,18 +53,14 @@ public class Feedback {
 		attrValue = new String[] {  "'515130044'", "2", "Nice book",
 				"6", "2015-6-10" };
 		this.newFeedback(attrValue, stmt);
-		this.newFeedback(attrValue, stmt);
 		attrValue = new String[] {  "'9787500794486'", "1", "Nice book",
 				"6", "2015-6-10" };
-		this.newFeedback(attrValue, stmt);
 		this.newFeedback(attrValue, stmt);
 		attrValue = new String[] {  "'9787500794486'", "4", "Good Good",
 				"6", "2015-6-10" };
 		this.newFeedback(attrValue, stmt);
-		this.newFeedback(attrValue, stmt);
 		attrValue = new String[] {  "'0312425074'", "5", "Nice book",
 				"6", "2015-6-10" };
-		this.newFeedback(attrValue, stmt);
 		this.newFeedback(attrValue, stmt);
 		attrValue = new String[] {  "'0312425074'", "3", "Nice",
 				"6", "2015-6-10" };
