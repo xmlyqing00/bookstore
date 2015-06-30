@@ -31,6 +31,24 @@ public class Customer_Rate {
 		this.newCustomer_Rate(attrValue, stmt);
 		attrValue = new String[] { "5", "4", "true" };
 		this.newCustomer_Rate(attrValue, stmt);
+		attrValue = new String[] { "0", "5", "true" };
+		this.newCustomer_Rate(attrValue, stmt);
+		attrValue = new String[] { "3", "5", "true" };
+		this.newCustomer_Rate(attrValue, stmt);
+		attrValue = new String[] { "2", "5", "true" };
+		this.newCustomer_Rate(attrValue, stmt);
+		attrValue = new String[] { "1", "4", "true" };
+		this.newCustomer_Rate(attrValue, stmt);
+		attrValue = new String[] { "4", "5", "true" };
+		this.newCustomer_Rate(attrValue, stmt);
+		attrValue = new String[] { "3", "4", "true" };
+		this.newCustomer_Rate(attrValue, stmt);
+		attrValue = new String[] { "2", "0", "false" };
+		this.newCustomer_Rate(attrValue, stmt);
+		attrValue = new String[] { "2", "4", "false" };
+		this.newCustomer_Rate(attrValue, stmt);
+		attrValue = new String[] { "1", "5", "false" };
+		this.newCustomer_Rate(attrValue, stmt);
 
 	}
 

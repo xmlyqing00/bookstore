@@ -43,7 +43,7 @@ public class testdriver {
 			String a2 = "Xiaohong";
 			//String a3 = com.degree(a1, a2, con.stmt);
 			//String user = "'Tom'";
-			ResultSet resultFR = com.suggest(String.valueOf(4), con.stmt);
+			ResultSet resultFR = com.mostTrustUser(con.stmt);
 			//Boolean a = feedbacks.existFeedback(ISBN, user, con.stmt);
 			
 			while (resultFR.next()) {}

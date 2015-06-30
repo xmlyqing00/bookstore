@@ -439,17 +439,15 @@ public class Common {
 
 	public ResultSet mostTrustUser(Statement stmt) throws Exception {
 
-		String query = "select c.cid, c.login_name, (t1.sum-t2.sum) as score "
-				+ " from customer as c, ( "
-				+ "select c1.cid as cid, count(*) as sum "
+		String query = "select t1.login_name as login_name, (t1.sum-t2.sum) as score "
+				+ " from ( select c1.cid as cid, c1.login_name as login_name, count(*) as sum "
 				+ "from customer as c1, customer_rate as r "
 				+ "where c1.cid = r.cid2 and r.trusted = true "
-				+ "group by c1.cid ) as t1, ( "
+				+ "group by c1.cid ) as t1 left join ( "
 				+ "select c2.cid as cid, count(*) as sum "
-				+ "from customer as c2, customer_rate as r "
+				+ "from customer as c2 ,customer_rate as r "
 				+ "where c2.cid = r.cid2 and r.trusted = false "
-				+ "group by c2.cid ) as t2 "
-				+ "where t1.cid = c.cid and t2.cid = c.cid "
+				+ "group by c2.cid ) as t2 on t2.cid=t1.cid "
 				+ "order by (t1.sum-t2.sum) desc;";
 		ResultSet results;
 
@@ -463,7 +461,7 @@ public class Common {
 		}
 		return results;
 	}
-
+	
 	public ResultSet mostUsefulUser(Statement stmt) throws Exception {
 
 		String query = "select c.cid, c.login_name, avg(r.fb_rate) as score "

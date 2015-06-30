@@ -182,7 +182,7 @@
 					<p>If you can NOT find ANY functionality. Please Contact Me :)</p>
 					<p>If you want to MINUS MY SCORE. Please Contact Me :(</p>
 					<br/>
-					<p>Amazing database class !! Inspired me many idas.</p>
+					<p>Amazing database class !! Inspired me many ideas.</p>
 					<p>Thanks Feifei a lot !!</p>
 				</div>
 				<div class="cl">&nbsp;</div>

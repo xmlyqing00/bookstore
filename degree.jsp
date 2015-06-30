@@ -2,7 +2,7 @@
 <%@ page language="java" import="fudandb.*, java.sql.*" %>
 <html lang="en-US" xmlns="http://www.w3.org/1999/xhtml" dir="ltr">
 <head>
-	<title> Orders | BookStore of Liang </title>
+	<title> 2 Degree | BookStore of Liang </title>
 	<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
 	<link rel="shortcut icon" href="css/images/favicon.ico" />
 	<link rel="stylesheet" href="css/style.css" type="text/css" media="all" />
@@ -39,36 +39,7 @@
 		
 		fudandb.Connector con = new Connector();
 		fudandb.Book books = new Book();
-		fudandb.Feedback feedbacks = new Feedback();
-		fudandb.Feedback_Rate feedback_rates = new Feedback_Rate();
-		fudandb.Customer customers = new Customer();
-		fudandb.Orders orders = new Orders();
-
-		int cid = customers.getCid(name_q, con.stmt);
-		String ISBN = (String)request.getParameter("ISBN");
-		if (ISBN != null && !ISBN.equals("")) {
-			ISBN = "'" + ISBN + "'";
-			String[] order_value = new String[] {ISBN, String.valueOf(cid), (String)request.getParameter("order_copies")};
-			boolean order_succ = orders.newOrders(order_value, con.stmt);
-			if (order_succ) {
-	%>
-			<script type="text/javascript">
-				alert("New Order Successful !! ");
-			</script>
-	<%
-			} else {
-	%>
-			<script type="text/javascript">
-				alert("Can not provide so many books !! ");
-			</script>
-	<%
-			}
-	%>
-			<script type="text/javascript">
-				location.href="onebook.jsp?ISBN=" + <%=ISBN%>;
-			</script>
-	<%
-		}
+		
 	%>
 	<!-- Header -->
 	<div id="header" class="shell">
@@ -78,7 +49,7 @@
 			<ul>
 				<li><a href="home.jsp" >Home</a></li>
 				<li><a href="browsebook.jsp">Browse Books</a></li>
-				<li><a href="degree.jsp" >2 Degree</a></li>
+				<li><a href="#" class="active">2 Degree</a></li>
 				<li><a href="user.jsp">Users</a></li>
 				<li><a href="newbook.jsp">New Books</a></li>
 			</ul>
@@ -98,32 +69,85 @@
 		<!-- End Login-details -->
 	</div>
 	<div id="main" class="shell">
-		
-		<h3>My Orders : </h3>
+		<h3>All Books ( Just for Testing Degree ): </h3>
 		<table border="1">
 			<tr>
-				<th>Order ID</th>
-				<th>Date</th>
 				<th>ISBN</th>
-				<th>Amount</th>
+				<th>Title</th>
+				<th>Author</th>
+				<th>Publisher</th>
+				<th>Publish_Year</th>
+				<th>Copies</th>
+				<th>Price</th>
+				<th>Format</th>
+				<th>Keywords</th>
+				<th>Subject</th>
+				<th>rate</th>
+				<th>trust_rate</th>
 			</tr>
-		<%
-			ResultSet results;
-			results = orders.showOrders(cid, con.stmt);
-			while (results.next()) {
-		%>
+			<%
+				String emptyQuery = "";
+				ResultSet results = books.browseBook(emptyQuery, 4, name_q, con.stmt);
+				while (results.next()) {
+			%>
 			<tr>
-				<th><%=results.getInt("oid")%></th>
-				<th><%=results.getString("buy_date")%></th>
-				<th><%=results.getString("ISBN")%></th>
-				<th><%=results.getInt("amount")%></th>
+				<%
+					String ISBN = results.getString("ISBN");
+					String href = "'onebook.jsp?ISBN=" + ISBN + "'";
+				%>
+				<th><a target="_blank" href=<%=href%> ><%=ISBN%></a></th>
+				
+				<th><%=results.getString("title")%></th>
+				<th><%=results.getString("author")%></th>
+				<th><%=results.getString("publisher")%></th>
+				<th><%=results.getString("publish_year")%></th>
+				<th><%=results.getInt("copies")%></th>
+				<th><%=results.getDouble("price")%></th>
+				<th><%=results.getString("format")%></th>
+				<th><%=results.getString("keywords")%></th>
+				<th><%=results.getString("subject")%></th>
+				<th><%=results.getDouble("rate")%></th>
+				<th><%=results.getDouble("trust_rate")%></th>
 			</tr>
-		<%
-			}
-		%>
+			<%
+				}
+			%>
+			
 		</table>
-		
+		<br/><hr/><br/>
+		<h3>Two Authors Degree: </h3>
+		<form action="degree.jsp" method="post">
+			<label>Author 1 : </label>
+			<input type="text" name="author1" required="required"/>
+			<label>Author 2 : </label>
+			<input type="text" name="author2" required="required"/>
+			<button type="submit">Submit</button>
+		</form>
+		<p>Example 1 Degree ---- Author 1 : Lifeifei and Author 2 : Xiaohong</p>
+		<p>Example 2 Degree ---- Author 1 : Xiaoming and Author 2 : Xiaohong</p>
+		<br/><hr/><br/>
+		<h3>Result of Degree : </h3>
 		<%
+			String author1 = (String)request.getParameter("author1");
+			String author2 = (String)request.getParameter("author2");
+			String degree = "";
+			if (author1 != null && !author1.equals("")) {
+				fudandb.Common com = new Common();
+				degree = com.degree(author1, author2, con.stmt);
+				if (degree.charAt(0) == '0') {
+		%>
+				<p>Degree is 0.</p>
+		<%
+				} else if (degree.charAt(0) == '1') {
+		%>
+				<p>Degree is 1. Share by <%=degree.substring(1)%>.</p>
+		<%
+				} else {
+		%>
+				<p>Degree is 2. Share by <%=degree.substring(1)%>.</p>		
+		<%
+				}
+			}
 			con.closeConnection();
 		%>
 

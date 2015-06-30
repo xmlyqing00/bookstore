@@ -2,7 +2,7 @@
 <%@ page language="java" import="fudandb.*, java.sql.*" %>
 <html lang="en-US" xmlns="http://www.w3.org/1999/xhtml" dir="ltr">
 <head>
-	<title> Orders | BookStore of Liang </title>
+	<title> Users | BookStore of Liang </title>
 	<meta http-equiv="Content-type" content="text/html; charset=utf-8" />
 	<link rel="shortcut icon" href="css/images/favicon.ico" />
 	<link rel="stylesheet" href="css/style.css" type="text/css" media="all" />
@@ -38,35 +38,20 @@
 		name_q = "'" + name + "'";
 		
 		fudandb.Connector con = new Connector();
-		fudandb.Book books = new Book();
-		fudandb.Feedback feedbacks = new Feedback();
-		fudandb.Feedback_Rate feedback_rates = new Feedback_Rate();
 		fudandb.Customer customers = new Customer();
-		fudandb.Orders orders = new Orders();
+		fudandb.Common com = new Common();
+		fudandb.Customer_Rate customer_rates = new Customer_Rate();
 
 		int cid = customers.getCid(name_q, con.stmt);
-		String ISBN = (String)request.getParameter("ISBN");
-		if (ISBN != null && !ISBN.equals("")) {
-			ISBN = "'" + ISBN + "'";
-			String[] order_value = new String[] {ISBN, String.valueOf(cid), (String)request.getParameter("order_copies")};
-			boolean order_succ = orders.newOrders(order_value, con.stmt);
-			if (order_succ) {
+
+		String _trust = (String)request.getParameter("_trust");
+		if (_trust != null && !_trust.equals("null")) {
+			String _name = (String)request.getParameter("_name");
+			customer_rates.update(cid, _name, _trust, con.stmt);
 	%>
-			<script type="text/javascript">
-				alert("New Order Successful !! ");
-			</script>
-	<%
-			} else {
-	%>
-			<script type="text/javascript">
-				alert("Can not provide so many books !! ");
-			</script>
-	<%
-			}
-	%>
-			<script type="text/javascript">
-				location.href="onebook.jsp?ISBN=" + <%=ISBN%>;
-			</script>
+		<script type="text/javascript">
+			alert("Update Customer Rate Successful !! ");
+		</script>
 	<%
 		}
 	%>
@@ -78,8 +63,8 @@
 			<ul>
 				<li><a href="home.jsp" >Home</a></li>
 				<li><a href="browsebook.jsp">Browse Books</a></li>
-				<li><a href="degree.jsp" >2 Degree</a></li>
-				<li><a href="user.jsp">Users</a></li>
+				<li><a href="degree.jsp">2 Degree</a></li>
+				<li><a href="#" class="active">Users</a></li>
 				<li><a href="newbook.jsp">New Books</a></li>
 			</ul>
 		</div>
@@ -99,30 +84,94 @@
 	</div>
 	<div id="main" class="shell">
 		
-		<h3>My Orders : </h3>
+		<h3>All Users : </h3>
 		<table border="1">
 			<tr>
-				<th>Order ID</th>
-				<th>Date</th>
-				<th>ISBN</th>
-				<th>Amount</th>
+				<th>&nbsp;Customer&nbsp;</th>
+				<th>&nbsp;Trust Him / Her&nbsp;</th>
+				<th>&nbsp;Trust Change&nbsp;</th>
 			</tr>
 		<%
 			ResultSet results;
-			results = orders.showOrders(cid, con.stmt);
+			results = customer_rates.showCustomer_Rate(cid, con.stmt);
 			while (results.next()) {
 		%>
 			<tr>
-				<th><%=results.getInt("oid")%></th>
-				<th><%=results.getString("buy_date")%></th>
-				<th><%=results.getString("ISBN")%></th>
-				<th><%=results.getInt("amount")%></th>
+				<th><%=results.getString("customer")%></th>
+				<th><%=results.getBoolean("trusted")%></th>
+				<th>
+					<form action="user.jsp" method="post">
+						<input type="hidden" name="_name" value=<%="'" + results.getString("customer")+"'"%>/>
+						&nbsp;
+						<label>True:</label>
+						<input type="radio" name="_trust" value="true" />
+						&nbsp;
+						<label>False:</label>
+						<input type="radio" name="_trust" value="false" />
+						&nbsp;
+						<label>NULL:</label>
+						<input type="radio" name="_trust" value="null" checked="checked" />
+						&nbsp;
+						<%
+							if (results.getString("customer").equals(name)) {
+						%>
+							<button type="submit" disabled="disabled">Submit</button>
+						<%
+							} else {
+						%>
+							<button type="submit">Submit</button>
+						<%
+							}
+						%>
+					</form>
+				</th>
 			</tr>
 		<%
 			}
 		%>
 		</table>
-		
+		<br/>
+		<hr/>
+		<br/>
+		<h3>Most Trusted User : </h3>
+		<table border="1">
+			<tr>
+				<th>&nbsp;Customer&nbsp;</th>
+				<th>&nbsp;Trust Score&nbsp;</th>
+			</tr>
+		<%
+			results = com.mostTrustUser(con.stmt);
+			while (results.next()) {
+		%>
+			<tr>
+				<th><%=results.getString("login_name")%></th>
+				<th><%=results.getDouble("score")%></th>
+			</tr>
+		<%
+			}
+		%>
+		</table>
+		<br/>
+		<hr/>
+		<br/>
+		<h3>Most Useful User : </h3>
+		<table border="1">
+			<tr>
+				<th>&nbsp;Customer&nbsp;</th>
+				<th>&nbsp;Useful Score&nbsp;</th>
+			</tr>
+		<%
+			results = com.mostUsefulUser(con.stmt);
+			while (results.next()) {
+		%>
+			<tr>
+				<th><%=results.getString("login_name")%></th>
+				<th><%=results.getDouble("score")%></th>
+			</tr>
+		<%
+			}
+		%>
+		</table>
 		<%
 			con.closeConnection();
 		%>
@@ -147,7 +196,7 @@
 					<p>If you can NOT find ANY functionality. Please Contact Me :)</p>
 					<p>If you want to MINUS MY SCORE. Please Contact Me :(</p>
 					<br/>
-					<p>Amazing database class !! Inspired me many ideas.</p>
+					<p>Amazing database class !! Inspired me many idas.</p>
 					<p>Thanks Feifei a lot !!</p>
 				</div>
 				<div class="cl">&nbsp;</div>
